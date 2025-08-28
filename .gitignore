@@ -1,1 +1,10 @@
 .env
+target/
+.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper-downloader.jar
+.mvn/wrapper/MavenWrapperDownloader.java
+.idea/
+*.iml
+.classpath
+.project
+.settings/
