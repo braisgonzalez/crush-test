@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Prerequisites
-        run: sudo apt-get update && sudo apt-get install -y curl ca-certificates gnupg
+        run: sudo apt-get update && sudo apt-get install -y curl ca-certificates gnupg jq
 
       - name: Configure crush (global)
         run: |
@@ -45,12 +45,47 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Implement + PR via Crush
+      - name: Move Jira issue to In Progress
         env:
-          GH_TOKEN: ${{ github.token }}
-          GITHUB_TOKEN: ${{ github.token }}
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
           PROMPT_RAW: ${{ github.event.inputs.prompt }}
         run: |
-          echo "PROMPT_RAW=$PROMPT_RAW"
-          PROMPT=$(printf '%b' "$PROMPT_RAW")
-          crush run "Read and follow the Standing Orders in CRUSH.md. Task: $PROMPT"
+          ISSUE_KEY=$(printf '%b' "$PROMPT_RAW" | sed -n 's/.*STORY_ID:[[:space:]]*\([A-Za-z0-9_-]\+\).*/\1/p')
+          if [ -z "$ISSUE_KEY" ]; then
+            echo "No ISSUE_KEY found in PROMPT"; exit 0
+          fi
+          echo "ISSUE_KEY=$ISSUE_KEY"
+          
+          AUTH=$(printf '%s:%s' "$JIRA_EMAIL" "$JIRA_API_TOKEN" | base64)
+          TRANSITIONS_JSON=$(curl -sS \
+            -H "Authorization: Basic $AUTH" \
+            -H "Accept: application/json" \
+            "$JIRA_BASE_URL/rest/api/3/issue/$ISSUE_KEY/transitions")
+          
+          TRANSITION_ID=$(echo "$TRANSITIONS_JSON" | jq -r '.transitions[] | select(.name=="In Progress") | .id' | head -n1)
+          if [ -z "$TRANSITION_ID" ] || [ "$TRANSITION_ID" = "null" ]; then
+            echo "No 'In Progress' transition found. Available:" 
+            echo "$TRANSITIONS_JSON" | jq -r '.transitions[] | "\(.name) -> \(.id)"'
+            exit 1
+          fi
+          echo "TRANSITION_ID=$TRANSITION_ID"
+          
+          curl -sS -X POST \
+            -H "Authorization: Basic $AUTH" \
+            -H "Content-Type: application/json" \
+            --data "{\"transition\": {\"id\": \"$TRANSITION_ID\"}}" \
+            "$JIRA_BASE_URL/rest/api/3/issue/$ISSUE_KEY/transitions"
+          
+          echo "Moved $ISSUE_KEY to In Progress"
+
+#      - name: Implement + PR via Crush
+#        env:
+#          GH_TOKEN: ${{ github.token }}
+#          GITHUB_TOKEN: ${{ github.token }}
+#          PROMPT_RAW: ${{ github.event.inputs.prompt }}
+#        run: |
+#          echo "PROMPT_RAW=$PROMPT_RAW"
+#          PROMPT=$(printf '%b' "$PROMPT_RAW")
+#          crush run "Read and follow the Standing Orders in CRUSH.md. Task: $PROMPT"
