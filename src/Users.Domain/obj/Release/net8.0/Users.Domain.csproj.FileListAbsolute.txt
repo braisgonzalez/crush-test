@@ -1,0 +1,12 @@
+/home/runner/work/crush-test/crush-test/src/Users.Domain/bin/Release/net8.0/Users.Domain.deps.json
+/home/runner/work/crush-test/crush-test/src/Users.Domain/bin/Release/net8.0/Users.Domain.dll
+/home/runner/work/crush-test/crush-test/src/Users.Domain/bin/Release/net8.0/Users.Domain.pdb
+/home/runner/work/crush-test/crush-test/src/Users.Domain/obj/Release/net8.0/Users.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/home/runner/work/crush-test/crush-test/src/Users.Domain/obj/Release/net8.0/Users.Domain.AssemblyInfoInputs.cache
+/home/runner/work/crush-test/crush-test/src/Users.Domain/obj/Release/net8.0/Users.Domain.AssemblyInfo.cs
+/home/runner/work/crush-test/crush-test/src/Users.Domain/obj/Release/net8.0/Users.Domain.csproj.CoreCompileInputs.cache
+/home/runner/work/crush-test/crush-test/src/Users.Domain/obj/Release/net8.0/Users.Domain.sourcelink.json
+/home/runner/work/crush-test/crush-test/src/Users.Domain/obj/Release/net8.0/Users.Domain.dll
+/home/runner/work/crush-test/crush-test/src/Users.Domain/obj/Release/net8.0/refint/Users.Domain.dll
+/home/runner/work/crush-test/crush-test/src/Users.Domain/obj/Release/net8.0/Users.Domain.pdb
+/home/runner/work/crush-test/crush-test/src/Users.Domain/obj/Release/net8.0/ref/Users.Domain.dll

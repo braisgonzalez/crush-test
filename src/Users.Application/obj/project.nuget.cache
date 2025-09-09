@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "kwh0CwbjAAKnLmSJAHFBsncILle06l3eN3f2GCUez2dUI3og8Hk/IJho0KCBh9Vay7h0B8tsBxcBxD2kqZttmQ==",
+  "success": true,
+  "projectFilePath": "/home/runner/work/crush-test/crush-test/src/Users.Application/Users.Application.csproj",
+  "expectedPackageFiles": [
+    "/home/runner/.nuget/packages/mediatr/12.2.0/mediatr.12.2.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/mediatr.contracts/2.0.1/mediatr.contracts.2.0.1.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/8.0.0/microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
